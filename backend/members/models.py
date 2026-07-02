@@ -39,8 +39,9 @@ class Member(models.Model):
 
     @property
     def active_loan_count(self):
-        # "ACTIVE" matches circulation.Loan.Status.ACTIVE
-        return self.loans.filter(status="ACTIVE").count()
+        from circulation.models import Loan  # lazy import avoids a circular import with circulation.models
+
+        return self.loans.filter(status=Loan.Status.ACTIVE).count()
 
     @property
     def can_borrow(self):

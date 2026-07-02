@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/client";
+import API, { unwrapList } from "../api/client";
 
 export default function Reservations() {
   const [reservations, setReservations] = useState([]);
@@ -10,9 +10,9 @@ export default function Reservations() {
   const [message, setMessage] = useState(null);
 
   function loadAll() {
-    API.get("/reservations/reservations/").then((r) => setReservations(r.data.results || r.data));
-    API.get("/members/members/").then((r) => setMembers(r.data.results || r.data));
-    API.get("/catalog/books/").then((r) => setBooks(r.data.results || r.data));
+    API.get("/reservations/reservations/").then((r) => setReservations(unwrapList(r)));
+    API.get("/members/members/").then((r) => setMembers(unwrapList(r)));
+    API.get("/catalog/books/").then((r) => setBooks(unwrapList(r)));
   }
 
   useEffect(() => { loadAll(); }, []);

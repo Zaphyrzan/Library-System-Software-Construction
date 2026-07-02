@@ -11,4 +11,10 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
+// DRF paginates list endpoints under `.results`, but not every viewset
+// enables pagination — this normalizes both shapes for callers.
+export function unwrapList(response) {
+  return response.data.results || response.data;
+}
+
 export default API;

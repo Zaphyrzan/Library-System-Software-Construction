@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import API from "../api/client";
+import API, { unwrapList } from "../api/client";
 
 export default function Members() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    API.get("/members/members/").then((r) => setMembers(r.data.results || r.data));
+    API.get("/members/members/").then((r) => setMembers(unwrapList(r)));
   }, []);
 
   return (

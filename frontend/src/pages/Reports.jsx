@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import API from "../api/client";
+import API, { unwrapList } from "../api/client";
 
 export default function Reports() {
   const [fines, setFines] = useState([]);
   const [overdue, setOverdue] = useState([]);
 
   function loadAll() {
-    API.get("/reporting/fines/").then((r) => setFines(r.data.results || r.data));
+    API.get("/reporting/fines/").then((r) => setFines(unwrapList(r)));
     API.get("/reporting/reports/overdue/").then((r) => setOverdue(r.data));
   }
 

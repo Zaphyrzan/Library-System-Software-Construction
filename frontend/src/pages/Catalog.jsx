@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/client";
+import API, { unwrapList } from "../api/client";
 
 export default function Catalog() {
   const [books, setBooks] = useState([]);
@@ -9,7 +9,7 @@ export default function Catalog() {
   function load(q = "") {
     setLoading(true);
     API.get("/catalog/books/", { params: q ? { search: q } : {} })
-      .then((r) => setBooks(r.data.results || r.data))
+      .then((r) => setBooks(unwrapList(r)))
       .finally(() => setLoading(false));
   }
 

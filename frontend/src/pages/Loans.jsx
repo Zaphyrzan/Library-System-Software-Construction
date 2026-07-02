@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/client";
+import API, { unwrapList } from "../api/client";
 
 export default function Loans() {
   const [loans, setLoans] = useState([]);
@@ -10,9 +10,9 @@ export default function Loans() {
   const [message, setMessage] = useState(null);
 
   function loadAll() {
-    API.get("/circulation/loans/").then((r) => setLoans(r.data.results || r.data));
-    API.get("/members/members/").then((r) => setMembers(r.data.results || r.data));
-    API.get("/catalog/copies/").then((r) => setCopies(r.data.results || r.data));
+    API.get("/circulation/loans/").then((r) => setLoans(unwrapList(r)));
+    API.get("/members/members/").then((r) => setMembers(unwrapList(r)));
+    API.get("/catalog/copies/").then((r) => setCopies(unwrapList(r)));
   }
 
   useEffect(() => { loadAll(); }, []);
